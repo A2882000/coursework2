@@ -1,0 +1,433 @@
+<html>
+
+<head>
+
+    <script src="products.js"></script>
+
+
+    <title>ONLINE LESSON</title>
+
+    <script src="https://unpkg.com/vue"></script>
+    <!-- // <script src="C://Users/hp/LabTaskIndivi/products.js"></script> -->
+    
+    <style>
+        strong {
+            color:blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+            <button v-on:click='showCheckout'  v-show="cartItemCount > 0" v-if="buttonvalue()" >
+                <span> {{cartItemCount}} </span>
+
+                <span class="fas fa-cart-plus"></span> Checkout
+                <!-- disable="disable" v-else -->
+            </button>
+            <!-- Shopping ca -->
+            <div  style="display: flex; flex-wrap: wrap;" v-show="display" >
+                <div v-for="product in mysecondcart">
+                    <h2 v-text="product.subject"></h2>s
+                    <figure>
+                        <img v-bind:src="product.image">
+                    </figure>
+                    <p>Description:{{product.description}}</p>
+                    <p>Location:{{product.location}}</p>
+                    <p>Price: {{product.price}}</p>
+                    <p>Spaces: only {{product.availableInventory - cartCount(product.id)}} are left!</p>
+                    <button v-on:click='removeproduct(product)' v-if='canAddToCart(product)'>Remove Product</button>
+    
+    
+                    <button disabled="disable" v-else>Add to cart</button>
+    
+                </div>
+            </div>
+
+
+        </header>
+        <main>
+
+            <div style="text-align: center;" v-if='showProduct'>
+                <table>
+                    
+
+                    <tr>
+                        <td><span>Sort SUBJECT <input type="radio" name="a"
+                                    v-on:click="sortedsubject(products.subject)"></span>
+                        </td>
+                    <tr>
+                        <td><span>Sort Price<input type="radio" name="a"
+                                    v-on:click="sortedprice(products.price)"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span>Sort  Inventory<input type="radio" name="a"
+                                    v-on:click="sortedinventory(products.availableInventory)"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span>Sort  Location<input type="radio" name="a"
+                                    v-on:click="sortedlocation(products.location)"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span>ASCENDING<input type="radio" name="a"
+                                    v-on:click="sortingdesn(products.subject)"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span>DESCENDING<input type="radio" name="a"
+                                    v-on:click="sortingasn(products.subject)"></span>
+                        </td>
+                    </tr>
+                    </tr>
+                
+                    
+                </table>
+
+                <div style="display: flex; flex-wrap: wrap;" >
+                <div v-for="product in products">
+                    <h2 v-text="product.subject"></h2>
+                    <figure>
+                        <img v-bind:src="product.image">
+                    </figure>
+                    <p>Description:{{product.description}}</p>
+                    <p>Location:{{product.location}}</p>
+                    <p>Price: € {{product.price}}</p>
+                    <p>Spaces: only {{product.availableInventory - cartCount(product.id)}} are left!</p>
+
+
+                    <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'>Add
+                        to cart</button>
+
+                    <button v-else>Add to cart</button>
+
+
+
+                </div>
+                </div>
+
+                
+            </div>
+            <div v-else>
+                <h2>Checkout</h2>
+                <p>
+                    <strong>Name:</strong>
+                    <input v-model.trim="order.name" placeholder="YOUR FIRST NAME!" />
+                </p>
+                <p>
+                    <strong>Last Name:</strong>
+                 
+                </p>
+                <p>
+                    <strong>Email Address</strong>
+                   
+                   
+
+
+                </p>
+            
+                <p>
+                    <strong>Phone:</strong>
+                    <input type ="number" pattern="[/+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}" v-model="order.phone" placeholder="YOUR PHONE NUMBER!" />
+                </p>
+
+
+                <h2>Order Information</h2>
+                <label>
+                    <p>First Name: {{order.firstName}}</p>
+                </label>
+               
+        
+             
+ 
+                
+                <p>Phone number: {{order.phone}}</p>
+
+                <button v-on:click="submitForm">Place Order</button>
+            </div>
+        </main>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+        var webstore = new Vue({
+            el: '#app',
+            data: {
+
+                sitename: 'ONLINE LESSON',
+        
+                products: arr,
+
+                display: false,
+                //display1: true,
+                cart: [],
+                mysecondcart: [],
+                showProduct: true,
+
+                order: {
+                    firstName: '',
+                   
+                    phone: null
+                   
+                },
+
+            },
+            methods: {
+                addToCart(product) {
+                    this.cart.push(product.id); 
+                    this.mysecondcart.push(product);
+
+
+
+                },
+
+
+
+
+
+                sortedProducts(abcd) {
+                    function compare(a, b) {
+                        if (a.price > b.price)
+                            return 1;
+                        if (a.price < b.price)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+                sortedsubject(abcde) {
+                    function compare(a, b) {
+                        if (a.subject > b.subject)
+                            return 1;
+                        if (a.subject < b.subject)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+                // disple()
+                // {
+                //         if(button==onclick)
+                //         {
+                //             return display1 == none;
+                //         }
+                // },
+                sortedinventory(abcde) {
+                    function compare(a, b) {
+                        if (a.availableInventory > b.availableInventory)
+                            return 1;
+                        if (a.availableInventory < b.availableInventory)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+                sortedlocation(abcde) {
+                    function compare(a, b) {
+                        if (a.location > b.location)
+                            return 1;
+                        if (a.location < b.location)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+
+                sortedprice(abcde) {
+                    function compare(a, b) {
+                        if (a.price > b.price)
+                            return 1;
+                        if (a.price < b.price)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+                sortingdesn(abcde) {
+                    function compare(a, b) {
+                        if (a.subject < b.subject)
+                            return -1;
+                        if (a.subject > b.subject)
+                            return 1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+                sortingasn(abcde) {
+                    function compare(a, b) {
+                        if (a.subject < b.subject)
+                            return 1;
+                        if (a.subject > b.subject)
+                            return -1;
+                        return 0;
+
+
+                    }
+                    return this.products.sort(compare);
+
+                },
+
+
+                showCheckout() {
+                    this.showProduct = this.showProduct ? false : true;
+                    this.display = !this.showProduct;
+
+                },
+
+
+                submitForm(l, b, c) {
+                   if (this.order.name == "" && this.order.phone == "") {
+
+                        return alert('PLEASE ENTER YOUR DETAILS FOR ORDERS')
+
+                    }
+                    if (this.order.name == "") {
+                        return alert('PLEASE ENTER YOUR NAME')
+                    }
+                
+                    if (this.order.phone == "") {
+                        return alert('PLEASE ENTER YOUR MOBILE NUM OR PHONE');
+                    }
+                    else {
+
+
+                        this.order.name = "";
+                   
+                        this.order.phone = "";
+
+                        return alert(' you are succesfully placed the order')
+
+
+                    }
+
+                },
+                created: function () {
+                    console.log("collecting lessons from database....")
+                    fetch("").then(
+                        function(res) {
+                            res.json().then(
+                                function(json) {
+                                    app.lessons = jsons;
+                                }
+                            )
+                        }
+                    )
+                    },
+                    canAddToCart(product) {
+                    return product.availableInventory > this.cartCount(product.id);
+                },
+                cartCount(id) {
+
+                    let count = 0;
+                    for (let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i] === id) {
+                            count++;
+
+
+                        }
+                    }
+                    return count;
+
+
+                },
+
+                submitForm(){
+                    this.cart.array.forEach(element => {
+                        
+                    });
+                    fetch('https://webcoursework2.herokuapp.com/collection/Lesson' + element._id, {
+
+                        method: 'PUT',
+
+                        headers: {
+
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ availableInventory: element.availableInventory })}).then(function (data) {
+
+            }),
+
+            
+            fetch('https://webcoursework2.herokuapp.com/collection/Order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ Name: this.order.firstName, Phone: this.order.phone, ProductsInOrder: this.cart.map(({ subject }) => subject) })}).then(function () {
+                        }   
+                        )},                     
+
+
+                
+                
+
+           
+
+                buttonvalue() {
+                    if (this.cart.length > 0) {
+                        return true;
+                    } else {
+
+                        return false;
+
+                    }
+                },
+                removeproductfrominve()
+                {
+                    if(this.cart.length <= 0)
+                    {
+                        return true;
+                    }
+                    else{
+                        false;
+                    }
+
+
+                },
+
+
+
+                removeproduct(product) {
+                    this.mysecondcart.pop(product);
+                    this.cart.pop(product);
+
+                }
+            },
+            computed: {
+                cartItemCount() {
+
+                    return this.mysecondcart.length;
+                }
+            },
+
+
+
+        });
+
+
+    </script>
+</body>
+
+</html>
