@@ -28,7 +28,7 @@
                     <P>Locatioc:{{product.location}}</P>
                     <p>Price:{{product.price}}</p>
                     <P>ProductID: {{product.id}}</P>
-                    <P>Number of spaces: {{product.NumberOfSpace}}</P>
+                    <P>Number of spaces: {{product.availableInventory}}</P>
                 </span>
                 <button v-on:click="removefromcart(product)"> Remove Product</button>
             </div>
@@ -51,7 +51,7 @@
                     <P>Location: {{product.location}}</P>
                     <p>Price: {{product.price}}</p>
                     <P>Product I.d: {{product.id}}</P>
-                    <P>Number of spaces: {{product.NumberOfSpace}}</P>
+                    <P>Number of spaces: {{product.availableInventory}}</P>
                     <button v-on:click="decrement_inventory(product); addtocart(product); " v-if="isenable(product)">
                         ADD TO CART</button>
                     <!-- only show the button when 'canAddToCart' is true when it becomes false the button disappers -->
@@ -117,10 +117,10 @@
             },
             methods: {
                 decrement_inventory(product) {
-                    product.NumberOfSpace = product.NumberOfSpace - 1;
+                    product.availableInventory = product.availableInventory - 1;
                 },
                 isenable: function (product) {
-                    if (product.NumberOfSpace > 0) {
+                    if (product.availableInventory > 0) {
                         return true
                     }
                     else {
@@ -152,15 +152,15 @@
                 },
                 removefromcart: function (product) {
 
-                    product.NumberOfSpace = product.NumberOfSpace + 1;
-                    const newavail = product.NumberOfSpace;
+                    product.availableInventory = product.availableInventory + 1;
+                    const newavail = product.availableInventory;
                     this.cart.pop(product)
                     fetch('https://webcoursework2.herokuapp.com/Lesson' + product._id, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ NumberOfSpace: newavail })
+                        body: JSON.stringify({ availableInventory: newavail })
                     }).then(function (data) {
 
 
@@ -193,7 +193,7 @@
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ NumberOfSpace: element.NumberOfSpace })
+                            body: JSON.stringify({ availableInventory: element.availableInventory })
                         }).then(function (data) {
 
 
