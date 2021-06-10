@@ -155,17 +155,7 @@
                     product.availableInventory = product.availableInventory + 1;
                     const newavail = product.availableInventory;
                     this.cart.pop(product)
-                    fetch('https://webcoursework2.herokuapp.com/Lesson' + product._id, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ availableInventory: newavail })}).then(function (data) {
-
-
-
-                    });
-
+                  
 
                 },
 
@@ -186,13 +176,12 @@
 
                     this.cart.forEach(element => {
 
-                        fetch('https://webcoursework2.herokuapp.com//collection/Lesson/' + element._id, {
+                        fetch('https://webcoursework2.herokuapp.com//collection/Lesson' + element._id, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ availableInventory: element.availableInventory })
-                        }).then(function (data) {
+                            body: JSON.stringify({ availableInventory: element.availableInventory })}).then(function (data) {
 
 
                         });
