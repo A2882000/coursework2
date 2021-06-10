@@ -23,7 +23,7 @@
                 <figure>
                     <img v-bind:src="product.image" width="200" height="200">
                 </figure>
-                <h2 v-html="product.subject"></h2>
+                <h2 v-html="product.topic"></h2>
                 <span>
                     <P>Locatioc:{{product.location}}</P>
                     <p>Price:{{product.price}}</p>
@@ -46,7 +46,7 @@
                         <img v-bind:src="product.image" width="200" height="200">
                     </figure>
 
-                    <h2 v-html="product.subject"></h2>
+                    <h2 v-html="product.topic"></h2>
                     <p>ID : {{ product._id}}</p>
                     <P>Location: {{product.location}}</P>
                     <p>Price: {{product.price}}</p>
@@ -180,7 +180,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ Name: this.order.name, Phone: this.order.phone, ProductsInOrder: this.cart.map(({ subject }) => subject) })
+                        body: JSON.stringify({ Name: this.order.name, Phone: this.order.phone, ProductsInOrder: this.cart.map(({ topic }) => topic) })
                     }).then(function () {
 
 
