@@ -156,7 +156,15 @@
                     const newavail = product.availableInventory;
                     this.cart.pop(product)
                   
+                    fetch('https://webcoursework2.herokuapp.com/collection/Order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ Name: this.order.name, Phone: this.order.phone, ProductsInOrder: this.cart.map(({ topic }) => topic) })}).then(function () {
 
+
+                    });
                 },
 
 
